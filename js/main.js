@@ -1,10 +1,11 @@
 $(document).ready(function() {
-
+    
+    "use strict";
 
 	// Create an constructor for a todo object
 	function Todo(content){
-		this.content = content;
-		this.id = Date.now();
+		this.content     = content;
+		this.id          = Date.now();
 		this.isCompleted = false;
 	}
 
@@ -43,10 +44,10 @@ $(document).ready(function() {
 		// Loop through the array passed into the function
 		array.forEach(function(todo){
 
-			var newClass = "";
+			let newClass = "";
 
 			if(todo.isCompleted){
-				newClass= "class='completed'";
+				newClass = "class='completed'";
 			}
 
 			// Append the item into our html
@@ -67,7 +68,7 @@ $(document).ready(function() {
 
 	// When a checkmark gets clicked, handle it. 
 	$(".items").on("click",".check",function(){
-		var id = $(this).data('id');
+		let id = $(this).data('id');
 
 		// Loop through our todos and rewrite them to the page.
 		todos.forEach(function(item){
@@ -84,7 +85,7 @@ $(document).ready(function() {
 
 	// When the delete button gets clicked handle it
 	$(".items").on("click",".delete",function(){
-		var id = $(this).data('id');
+		let id = $(this).data('id');
 
 		todos.forEach(function(item,position){
 			if(item.id === id)
@@ -101,11 +102,9 @@ $(document).ready(function() {
 	// the HTML
 	$(".show-active").on("click",function(){
 
-		// Update buttons ( this could be a seperate function )
-		$("footer button").removeClass('active');
-		$(this).addClass("active");
+		changeClasses(this);
 
-		var newArray = todos.filter(function(item){
+		let newArray = todos.filter(function(item){
 			if(item.isCompleted === false){
 				return true;
 			}
@@ -119,12 +118,10 @@ $(document).ready(function() {
 	// the HTML
 	$(".show-completed").on("click",function(){
 
-		// Update the active class for the button
-		$("footer button").removeClass('active');
-		$(this).addClass("active");
+		changeClasses(this);
 
 		// Filter our array down to just get the completed items
-		var newArray = todos.filter(function(item){
+		let newArray = todos.filter(function(item){
 			if(item.isCompleted === true){
 				return true;
 			}
@@ -136,13 +133,16 @@ $(document).ready(function() {
 
 	// When show all is clicked just use the normal array
 	$(".show-all").on("click",function(){
-
-		// Update button
-		$("footer button").removeClass('active');
-		$(this).addClass("active");
-
+		changeClasses(this);
 		updateHTML(todos);
 	})
+
+
+	function changeClasses(that){
+		let _this = that;
+		$("footer button").removeClass('active');
+		$(_this).addClass("active");
+	}
 
 });
 
